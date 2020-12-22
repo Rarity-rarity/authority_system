@@ -11,7 +11,7 @@
 	    font-size : 20px !important;
 	}
 </style>
-<script type="text/javascript" src="${ctx}/static/js/hp_form.js"></script>
+<%--<script type="text/javascript" src="${ctx}/static/js/hp_form.js"></script>--%>
 <script type="text/javascript" src="${ctx}/static/js/menu.js"></script>
 </head>
 <body>
@@ -103,5 +103,31 @@
 			</div>
 		</form>
 	</div>
+
+	<script>
+		layui.use('form', function() {
+			var form = layui.form;
+
+			//通用弹出层表单提交方法
+			form.on('submit(demo1)', function(data){
+				// if (!checkPhone()){
+				// 	return false;
+				// }
+				console.log($("form").attr("action"));
+
+				$.post($('form').attr("action"),data.field, function (e){
+
+					console.log(e)
+					if (e.result==true) {
+						parent.closeLayer(e.msg);
+						parent.window.location.href="${ctx}/user/toMainPage";
+					}else {
+						layer.msg('操作失败：' + e.msg, {icon: 2, time: 2000});
+					}
+				})
+				return false;
+			})
+		});
+	</script>
 </body>
 </html>

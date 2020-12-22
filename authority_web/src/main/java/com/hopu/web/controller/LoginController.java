@@ -1,23 +1,32 @@
 package com.hopu.web.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.hopu.domain.Menu;
 import com.hopu.domain.User;
+import com.hopu.service.IMenuService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
+@RequestMapping("user")
 @Controller
 public class LoginController {
+
+    @Autowired
+    private IMenuService menuService;
+
     // 用户登录
-    @PostMapping("/user/login")
+    @PostMapping("login")
     public String login(User user, Model model,HttpServletRequest request){
         UsernamePasswordToken token = new UsernamePasswordToken(user.getUserName(), user.getPassword());
         Subject subject = SecurityUtils.getSubject();
@@ -27,11 +36,18 @@ public class LoginController {
             HttpSession session = request.getSession();
             User user1 = (User) subject.getPrincipal();
             session.setAttribute("user",user1);
-            return "admin/index";
+            return "redirect:/user/toMainPage";
         } catch (Exception e) {
             String msg = "账户["+ token.getPrincipal() + "]的用户名或密码错误！";
             model.addAttribute("msg", msg);
             return "forward:/login.jsp";
         }
+    }
+    @RequestMapping("toMainPage")
+    public String toMainPage(Model model){
+        List<Menu> menuList = menuService.list(new QueryWrapper<Menu>().eq("pid","06dc37fa15024d93bb3e9641a3f733da"));
+        System.out.println("toMainPage do it");
+        model.addAttribute("menuList",menuList);
+        return "admin/index";
     }
 }

@@ -10,8 +10,8 @@
 <title>菜单列表</title>
 <style type="text/css">
 	td .iconfont {
-	    font-size : 20px !important;
-	}
+        font-size: 20px !important;
+    }
 </style>
 <script type="text/javascript" src="${ctx}/static/js/hp_list.js"></script>
 </head>

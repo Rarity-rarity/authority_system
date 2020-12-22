@@ -26,6 +26,7 @@
 			<ul class="layui-nav layui-layout-right">
 				<li class="layui-nav-item"><a href="javascript:;"> <img
 						src="http://t.cn/RCzsdCq" class="layui-nav-img">${sessionScope.user.nickname}
+					<label>${sessionScope.user.nickname}</label>
 				</a>
 				</li>
 				<li class="layui-nav-item"><a href="${pageContext.request.contextPath}/logout">注销</a></li>
@@ -38,7 +39,16 @@
 				<ul class="layui-nav layui-nav-tree" lay-filter="test">
 						<li class="layui-nav-item layui-nav-itemed"><a class=""
 							href="javascript:;"><span class='iconfont icon-setup'></span>&nbsp;&nbsp;系统管理</a>
-							<shiro:hasPermission name="user:list">
+							<c:forEach items="${menuList}" var="menu">
+								<dl class="layui-nav-child">
+									<dd>
+										<a href="javascript:" style="padding-left: 40px;" data-url="${ctx}/${menu.url}">
+											<span class="iconfont icon-people"></span>${menu.menuName}
+										</a>
+									</dd>
+								</dl>
+							</c:forEach>
+							<%--<shiro:hasPermission name="user:list">
 							<dl class="layui-nav-child">
 									<dd>
 										<a href="javascript:;" style="padding-left: 40px;" data-url="${ctx}/user/tolistPage">
@@ -61,7 +71,7 @@
 										<span class='iconfont icon-createtask'></span>&nbsp;&nbsp;菜单管理</a>
 								</dd>
 							</dl>
-							</shiro:hasPermission>
+							</shiro:hasPermission>--%>
 						</li>
 				</ul>
 			</div>
